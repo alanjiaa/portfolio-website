@@ -5,7 +5,7 @@ import * as THREE from 'three';
 
 export function RoomModel() {
   const group = useRef<THREE.Group>(null);
-  const { scene } = useGLTF('/models/alan-room.glb');
+  const { scene } = useGLTF('./models/alan-room.glb');
 
   React.useEffect(() => {
     if (scene) {
@@ -48,4 +48,4 @@ export function RoomModel() {
   return <primitive object={scene} ref={group} />;
 }
 
-useGLTF.preload('/models/alan-room.glb'); 
+useGLTF.preload('./models/alan-room.glb'); 

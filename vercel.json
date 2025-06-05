@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": { "zeroConfig": true }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/models/(.*)",
+      "headers": {
+        "cache-control": "public, max-age=31536000, immutable",
+        "content-type": "model/gltf-binary"
+      }
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/.*",
+      "dest": "/index.html"
+    }
+  ]
+} 
