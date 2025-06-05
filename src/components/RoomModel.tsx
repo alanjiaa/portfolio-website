@@ -3,6 +3,7 @@ import { useGLTF } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
+// Test deployment hook - room model component
 export function RoomModel() {
   const group = useRef<THREE.Group>(null);
   const { scene } = useGLTF('./models/alan-room.glb');
