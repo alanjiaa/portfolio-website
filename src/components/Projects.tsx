@@ -309,12 +309,6 @@ const Projects: React.FC = () => {
     setCurrentImageIndex((prev) => prev === 0 ? prev : prev - 1);
   };
 
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    const target = e.currentTarget;
-    target.onerror = null;
-    target.src = target.src.replace('.webp', '.jpg');
-  };
-
   // Reset current image index when selecting a new project
   useEffect(() => {
     setCurrentImageIndex(0);

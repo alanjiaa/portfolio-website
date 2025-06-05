@@ -80,14 +80,6 @@ const Title = styled(motion.h2)`
   }
 `;
 
-const LoadingText = styled.span`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: inherit;
-`;
-
 function LoadingScreen() {
   return (
     <Text
