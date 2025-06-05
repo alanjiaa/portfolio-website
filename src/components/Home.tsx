@@ -1,10 +1,11 @@
-import React, { Suspense } from 'react';
+import { Suspense } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
+import { OrbitControls, Text, PerspectiveCamera } from '@react-three/drei';
 import { useTheme } from '../context/ThemeContext';
 import { RoomModel } from './RoomModel';
+import * as THREE from 'three';
 
 const HomeContainer = styled.div`
   min-height: 100vh;
@@ -79,8 +80,31 @@ const Title = styled(motion.h2)`
   }
 `;
 
-const Home: React.FC = () => {
+const LoadingText = styled.span`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: inherit;
+`;
+
+function LoadingScreen() {
+  return (
+    <Text
+      position={[0, 0, 0]}
+      fontSize={1}
+      color="#000000"
+      anchorX="center"
+      anchorY="middle"
+    >
+      Loading...
+    </Text>
+  );
+}
+
+const Home = () => {
   const { theme } = useTheme();
+  const cameraPosition = new THREE.Vector3(55, 1, 60);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -127,25 +151,14 @@ const Home: React.FC = () => {
       </ContentContainer>
       
       <ModelContainer>
-        <Canvas
-          camera={{
-            position: [75, 2, 75],
-            fov: 45,
-            near: 1,
-            far: 2000
-          }}
-          gl={{ 
-            alpha: true,
-            antialias: true,
-            preserveDrawingBuffer: true,
-            premultipliedAlpha: false,
-            stencil: false
-          }}
-          style={{
-            background: 'none',
-            position: 'absolute'
-          }}
-        >
+        <Canvas>
+          <PerspectiveCamera
+            makeDefault
+            position={cameraPosition}
+            fov={45}
+            near={1}
+            far={2000}
+          />
           <ambientLight intensity={1} />
           <hemisphereLight
             intensity={1}
@@ -156,7 +169,7 @@ const Home: React.FC = () => {
           <directionalLight position={[-5, 8, -10]} intensity={0.3} />
           <pointLight position={[0, 5, 0]} intensity={0.5} color="#ffffff" />
           
-          <Suspense fallback={null}>
+          <Suspense fallback={<LoadingScreen />}>
             <RoomModel />
           </Suspense>
           <OrbitControls

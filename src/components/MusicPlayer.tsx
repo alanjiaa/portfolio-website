@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { FiPlay, FiPause, FiVolume2, FiVolumeX, FiMusic, FiX } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -241,99 +241,106 @@ const MusicPlayer: React.FC = () => {
   const currentTrack = tracks[currentTrackIndex];
 
   return (
-    <AnimatePresence>
-      {isExpanded ? (
-        <PlayerContainer
-          theme={theme}
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          exit={{ scale: 0, opacity: 0 }}
-        >
-          <audio
-            ref={audioRef}
-            src={currentTrack.file}
-            onEnded={() => setIsPlaying(false)}
-          />
-          <PlayerHeader>
-            <PlayerTitle theme={theme}>Produced by Alan</PlayerTitle>
-            <Button theme={theme} onClick={() => setIsExpanded(false)}>
-              <FiX size={20} />
-            </Button>
-          </PlayerHeader>
-          <TrackSelect theme={theme} value={currentTrack.title} onChange={handleTrackChange}>
-            {tracks.map(track => (
-              <option key={track.title} value={track.title}>
-                {track.title}
-              </option>
-            ))}
-          </TrackSelect>
-          <Controls>
-            <Button theme={theme} onClick={togglePlay}>
-              {isPlaying ? <FiPause size={20} /> : <FiPlay size={20} />}
-            </Button>
-            <VolumeContainer>
-              <Button theme={theme} onClick={() => setVolume(volume === 0 ? 0.5 : 0)}>
-                {volume === 0 ? <FiVolumeX size={20} /> : <FiVolume2 size={20} />}
-              </Button>
-              <VolumeControl
-                theme={theme}
-                type="range"
-                min="0"
-                max="1"
-                step="0.01"
-                value={volume}
-                onChange={handleVolumeChange}
-              />
-            </VolumeContainer>
-          </Controls>
-          <TrackInfo theme={theme}>
-            Now Playing: {currentTrack.title}
-          </TrackInfo>
-        </PlayerContainer>
-      ) : (
-        <CollapsedPlayer
-          theme={theme}
-          onClick={() => setIsExpanded(true)}
-          onMouseEnter={() => setShowTooltip(true)}
-          onMouseLeave={() => setShowTooltip(false)}
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          exit={{ scale: 0 }}
-        >
-          <CollapsedLabel
+    <>
+      <audio
+        ref={audioRef}
+        src={currentTrack.file}
+        onEnded={() => setIsPlaying(false)}
+      />
+      <AnimatePresence>
+        {isExpanded ? (
+          <PlayerContainer
             theme={theme}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.2 }}
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0, opacity: 0 }}
           >
-            Produced by me
-          </CollapsedLabel>
-          <PulseRing
+            <PlayerHeader>
+              <PlayerTitle theme={theme}>Produced by Alan</PlayerTitle>
+              <Button theme={theme} onClick={() => setIsExpanded(false)}>
+                <FiX size={20} />
+              </Button>
+            </PlayerHeader>
+            <TrackSelect theme={theme} value={currentTrack.title} onChange={handleTrackChange}>
+              {tracks.map(track => (
+                <option key={track.title} value={track.title}>
+                  {track.title}
+                </option>
+              ))}
+            </TrackSelect>
+            <Controls>
+              <Button theme={theme} onClick={togglePlay}>
+                {isPlaying ? <FiPause size={20} /> : <FiPlay size={20} />}
+              </Button>
+              <VolumeContainer>
+                <Button theme={theme} onClick={() => setVolume(volume === 0 ? 0.5 : 0)}>
+                  {volume === 0 ? <FiVolumeX size={20} /> : <FiVolume2 size={20} />}
+                </Button>
+                <VolumeControl
+                  theme={theme}
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.01"
+                  value={volume}
+                  onChange={handleVolumeChange}
+                />
+              </VolumeContainer>
+            </Controls>
+            <TrackInfo theme={theme}>
+              Now Playing: {currentTrack.title}
+            </TrackInfo>
+          </PlayerContainer>
+        ) : (
+          <CollapsedPlayer
             theme={theme}
-            animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.6, 0, 0.6]
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          />
-          <FiMusic size={24} color={theme === 'light' ? '#1a1a1a' : '#ffffff'} />
-          {showTooltip && (
-            <Tooltip
+            onClick={() => setIsExpanded(true)}
+            onMouseEnter={() => setShowTooltip(true)}
+            onMouseLeave={() => setShowTooltip(false)}
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            exit={{ scale: 0 }}
+          >
+            <CollapsedLabel
               theme={theme}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2 }}
             >
-              Listen to my music
-            </Tooltip>
-          )}
-        </CollapsedPlayer>
-      )}
-    </AnimatePresence>
+              {isPlaying ? `Playing: ${currentTrack.title}` : 'Produced by me'}
+            </CollapsedLabel>
+            <PulseRing
+              theme={theme}
+              animate={{
+                scale: [1, 1.2, 1],
+                opacity: [0.6, 0, 0.6]
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
+            <Button theme={theme} onClick={(e: React.MouseEvent) => {
+              e.stopPropagation();
+              togglePlay();
+            }}>
+              {isPlaying ? <FiPause size={24} /> : <FiMusic size={24} />}
+            </Button>
+            {showTooltip && (
+              <Tooltip
+                theme={theme}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+              >
+                {isPlaying ? 'Pause' : 'Play'}
+              </Tooltip>
+            )}
+          </CollapsedPlayer>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 

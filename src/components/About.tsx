@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
@@ -107,7 +107,11 @@ const About: React.FC = () => {
             variants={itemVariants}
             theme={theme}
           >
-            <img src="/images/about-profile.jpg" alt="Alan Dong" />
+            <img 
+              src="/images/about-profile.jpg"
+              alt="Alan Dong"
+              loading="lazy"
+            />
           </ProfileImage>
           <Header variants={itemVariants} theme={theme}>
             About Me

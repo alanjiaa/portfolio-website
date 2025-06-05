@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
@@ -38,6 +38,13 @@ const ProjectGrid = styled(motion.div)`
   width: 100%;
 `;
 
+const ProjectImage = styled.img`
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+`;
+
 const ProjectCard = styled(motion.div)`
   background: ${props => props.theme === 'light' ? '#ffffff' : '#1a1a1a'};
   border-radius: 1rem;
@@ -49,12 +56,10 @@ const ProjectCard = styled(motion.div)`
   &:hover {
     transform: translateY(-5px);
   }
-`;
 
-const ProjectImage = styled.img`
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
+  &:hover ${ProjectImage} {
+    transform: scale(1.05);
+  }
 `;
 
 const ProjectInfo = styled.div`
@@ -141,8 +146,6 @@ const CarouselImage = styled.img`
 interface StyledButtonProps {
   theme: 'light' | 'dark';
 }
-
-
 
 const CarouselButton = styled.button.attrs<StyledButtonProps>(() => ({
   type: 'button'
@@ -306,8 +309,14 @@ const Projects: React.FC = () => {
     setCurrentImageIndex((prev) => prev === 0 ? prev : prev - 1);
   };
 
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    const target = e.currentTarget;
+    target.onerror = null;
+    target.src = target.src.replace('.webp', '.jpg');
+  };
+
   // Reset current image index when selecting a new project
-  React.useEffect(() => {
+  useEffect(() => {
     setCurrentImageIndex(0);
   }, [selectedProject]);
 
@@ -335,7 +344,11 @@ const Projects: React.FC = () => {
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.98 }}
           >
-            <ProjectImage src={project.previewImage} alt={project.title} />
+            <ProjectImage 
+              src={project.previewImage}
+              alt={project.title}
+              loading="lazy"
+            />
             <ProjectInfo>
               <ProjectTitle theme={theme}>{project.title}</ProjectTitle>
               <ProjectDescription theme={theme}>{project.description}</ProjectDescription>
@@ -354,7 +367,7 @@ const Projects: React.FC = () => {
           >
             <ModalContent
               theme={theme}
-              onClick={(e) => e.stopPropagation()}
+              onClick={(e: React.MouseEvent) => e.stopPropagation()}
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
@@ -375,7 +388,7 @@ const Projects: React.FC = () => {
                         key={index}
                         src={image}
                         alt={`${selectedProject.title} ${index + 1}`}
-                        onClick={(e) => {
+                        onClick={(e: React.MouseEvent) => {
                           e.stopPropagation();
                           setSelectedImage(image);
                         }}
@@ -394,7 +407,7 @@ const Projects: React.FC = () => {
                       {selectedProject.images.map((image, index) => (
                         <CarouselImageContainer
                           key={index}
-                          onClick={(e) => {
+                          onClick={(e: React.MouseEvent) => {
                             e.stopPropagation();
                             setSelectedImage(image);
                           }}
