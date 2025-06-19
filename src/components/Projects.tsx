@@ -250,7 +250,7 @@ const projects: Project[] = [
     description: "A professional Pilates studio website with full booking, payments, and contact integrations",
     previewImage: "/images/project-images/studio32.png",
     images: [
-      "/images/project-images/studio32.png"
+      "/images/project-images/studio32.png", "/images/project-images/studio2.png", "/images/project-images/studio1.png",
     ],
     fullDescription: "Studio 32 Pilates is a live project currently in development for a boutique Pilates studio. The website is being built with Next.js and incorporates a suite of features including booking and scheduling functionality, integrated payment systems, contact forms, and automated email communications. The project leverages external APIs to handle appointments, notifications, and client management. I am working closely with the studio owner to ensure a user-friendly, modern, and responsive design that reflects the brand identity.",
   }
