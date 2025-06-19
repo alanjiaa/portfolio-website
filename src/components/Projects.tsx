@@ -244,7 +244,17 @@ const projects: Project[] = [
     fullDescription: "Bebe world is a personal project I created for my girlfriend and I, who are doing long distance. It is an ongoing project which I update regularly with new features and content. Built using NextJS, FireBase, and deployed on Vercel.",
     websiteUrl: "https://bebe-anniversary.vercel.app/home"
   },
-  // Add more projects here
+  {
+    id: 4,
+    title: "Studio 32 Pilates (2025-Ongoing)",
+    description: "A professional Pilates studio website with full booking, payments, and contact integrations",
+    previewImage: "/images/project-images/studio32.png",
+    images: [
+      "/images/project-images/studio32.png"
+    ],
+    fullDescription: "Studio 32 Pilates is a live project currently in development for a boutique Pilates studio. The website is being built with Next.js and incorporates a suite of features including booking and scheduling functionality, integrated payment systems, contact forms, and automated email communications. The project leverages external APIs to handle appointments, notifications, and client management. I am working closely with the studio owner to ensure a user-friendly, modern, and responsive design that reflects the brand identity.",
+  }
+  
 ];
 
 // Add new styled components for the full-size image view
