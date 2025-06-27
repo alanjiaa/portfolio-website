@@ -4,7 +4,7 @@ import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
 // Model path
-const MODEL_PATH = '/models/alan-room.glb';
+const MODEL_PATH = '/models/alanRoom27062025.glb';
 
 // Room model component
 export function RoomModel() {
